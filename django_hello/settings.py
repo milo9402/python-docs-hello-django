@@ -31,16 +31,28 @@ ALLOWED_HOSTS = [os.environ['WEBSITE_HOSTNAME']] if 'WEBSITE_HOSTNAME' in os.env
 # Application definition
 
 INSTALLED_APPS = [
+    # django APPs
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'hello'
+
+    # external APPs
+    'rest_framework',
+    'rest_framework.authtoken',
+    'corsheaders',
+
+    # develop APPs
+    'hello',
+
 ]
 
+CORS_ALLOW_ALL_ORIGINS=True
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -74,14 +86,13 @@ WSGI_APPLICATION = 'django_hello.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-"""
+
 DATABASES = {    
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }    
 }
-"""
 
 
 # Password validation
