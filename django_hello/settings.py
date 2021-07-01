@@ -31,16 +31,26 @@ ALLOWED_HOSTS = [os.environ['WEBSITE_HOSTNAME']] if 'WEBSITE_HOSTNAME' in os.env
 # Application definition
 
 INSTALLED_APPS = [
+    # django APPs
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'hello'
+
+    # external APPs
+    'rest_framework',
+    'rest_framework.authtoken',
+    'corsheaders',
+
+    # develop APPs
+    'api',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -51,6 +61,33 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'django_hello.urls'
+
+
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOWED_ORIGINS = [
+    "http://*",
+    "http://localhost",
+    "http://localhost:3000",
+    "http://localhost:3001",
+    'http://localhost:8000',
+    "http://localhost:8080",
+    "http://127.0.0.1",
+    "http://192.168.162.129:3000",
+]
+
+CORS_ORIGIN_WHITELIST = [
+    '*',
+    'http://localhost',
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'http://localhost:8000',
+    'http://localhost:8080',
+    'http://192.168.162.129:3000',
+]
+
+CORS_ALLOW_ALL_ORIGINS=True
+
 
 TEMPLATES = [
     {
@@ -74,14 +111,12 @@ WSGI_APPLICATION = 'django_hello.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-"""
 DATABASES = {    
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }    
 }
-"""
 
 
 # Password validation
@@ -120,4 +155,22 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+# Nuevo modelo de usuario 
+AUTH_USER_MODEL = 'api.User'
+
 STATIC_URL = '/static/'
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'static', 'media')
+
+STATIC_ROOT = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'static', 'static-only')
+
+STATICFILE_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
+
+STATICFILES_DIRS = (
+    os.path.join(os.path.dirname(os.path.dirname(__file__)), 'static', 'static'),
+)
